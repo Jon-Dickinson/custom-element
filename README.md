@@ -1,2 +1,2 @@
 # custom-element
-Custom Element and HTML5 Canvas Animation
+Custom HTML element

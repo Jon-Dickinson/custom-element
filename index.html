@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Web Components and Canvas">
+
+    <title>Custom Elements and HTML5 Canvas</title>
+
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <!-- necolas.github.io/normalize -->
+    <link rel="stylesheet" type="text/css" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="./assets/css/cssr-restart.css" />
+    <link rel="stylesheet" type="text/css" href="./assets/css/components/live-timer.css" />
+    <link rel="stylesheet" type="text/css" href="./assets/css/cssr-framework.css" />
+
+    <!-- fonts.googleapis -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:500&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+<main class="if__base-wrapper pad-tb-0 direction--column">
+  <div class="vertical-inline-flex bg-651fff pad-tb-20">
+      <div class="flex__mid-container direction--column max-w-768">
+          <p class="font-family--roboto-mono color--ffffff">JavaScript</p>
+      </div>
+  </div>
+  <div class="vertical-inline-flex pad-tb-20">
+    <section class="flex__mid-container direction--column max-w-768 pad-tb-20">
+ 
+      <p class="margin-t-40">
+        The visual representation of time using circular arcs to represent hours, minutes and seconds is an animated HTML5 canvas.
+        The numerical clock is a
+        <a href="https://html.spec.whatwg.org/multipage/custom-elements.html#custom-elements-api" target="_blank" rel="noopener">custom element</a>.
+      </p>
+      
+      <div class="vertical-inline-flex align--center margin-t-60 margin-b-20">
+        <div class="horizontal-inline-flex">
+          <div class="horizontal-inline-flex max-w-220p" mobile-hide>
+            <p class="font-s--14 font-w--500">
+              canvas
+            </p>
+          </div>
+          <div class="horizontal-inline-flex" mobile-hide>
+            <p class="font-s--14 font-w--500">
+              custom element
+            </p>
+          </div>
+        </div>
+        <div class="horizontal-inline-flex column-under--768 align--center">
+          <div class="ib__content-panel w-100-perc max-w-220p">
+            <canvas id="canvas" width="220" height="220" class="float-l"> </canvas>
+          </div>
+          <live-timer class="cssr-card card--no-shadow card--complete font--s-2 min-h-220p margin-l-1" id="elem">
+          </live-timer>
+        </div>
+      </div>
+
+      <div class="cssr-card card--compact cssr-card--row margin-t-20">
+        <h3 class="font-w--300">
+          Custom Elements
+        </h3>
+        <div class="ib__content-panel max-w-60p">
+            <img class="float-l" src="./assets/images/custom-element-icon.png">
+        </div>
+      </div>
+
+      <div class="cssr-card">
+
+<xmp class="margin-t-10">class LiveTimer extends HTMLElement {
+
+  render() { }
+
+  connectedCallback() { }
+
+  update() { }
+
+  disconnectedCallback() { }
+  
+}
+</xmp>
+ 
+        <p class="margin-t-20">
+          The numerical clock does not extend an existing HTML element and is therefor Autonomous:
+        </p>
+
+<xmp class="margin-tb-10">customElements.define("live-timer", LiveTimer);
+</xmp>
+
+        <p class="margin-t-10">
+          <code>connectedCallback</code>: Invoked each time the custom element is appended into a document-connected element. This will happen each time the node is moved, and may happen before the element's contents have been fully parsed.
+        </p>
+        <p class="margin-t-20">
+          <code>disconnectedCallback</code>: Invoked each time the custom element is disconnected from the document's DOM.
+        </p>
+
+        <p class="margin-t-20">
+          Customized elements extend a specific type of HTML element, for example:
+        </p>
+
+<xmp class="margin-tb-10">customElements.define('expanding-list', ExpandingList, { extends: "ul" });
+</xmp>
+
+      </div>
+
+      <div class="cssr-card card--compact cssr-card--row margin-t-20">
+        <h3 class="font-w--300">
+          HTML5 Canvas
+        </h3>
+        <div class="ib__content-panel max-w-70p">
+          <img class="float-l" src="./assets/images/canvas-icon.png">
+        </div>
+      </div>
+
+      <div class="cssr-card">
+
+<xmp class="margin-t-20">let canvas = document.getElementById("canvas");
+let ctx = canvas.getContext("2d");
+    ctx.lineWidth = 20;
+    ctx.shadowBlur = 2;
+
+function degToRad(degree) {
+  let factor = Math.PI / 180;
+  return degree * factor;
+}
+
+function renderTime() {
+
+  let now = new Date();
+  let hrs = now.getHours();
+  let min = now.getMinutes();
+  let sec = now.getSeconds();
+  let mil = now.getMilliseconds();
+  let smoothsec = sec + mil / 1000;
+  let smoothmin = min + smoothsec / 60;
+
+  // background
+  ctx.fillStyle = "#37474f";
+  
+  // size
+  ctx.fillRect(0, 0, 220, 220);
+
+  // hours
+  ctx.beginPath();
+  ctx.arc(110, 110, 70, degToRad(270), degToRad(hrs * 30 - 90));
+  ctx.strokeStyle = "#f50057";
+  ctx.shadowColor = "#f50057";
+  ctx.stroke();
+
+  // minutes
+  ctx.beginPath();
+  ctx.arc(110, 110, 50, degToRad(270), degToRad(smoothmin * 6 - 90));
+  ctx.strokeStyle = "#ffd600";
+  ctx.shadowColor = "#ffd600";
+  ctx.stroke();
+
+  // seconds
+  ctx.beginPath();
+  ctx.arc(110, 110, 30, degToRad(270), degToRad(smoothsec * 6 - 90));
+  ctx.strokeStyle = "#2979ff";
+  ctx.shadowColor = "#2979ff";
+  ctx.stroke();
+
+}
+
+setInterval(renderTime, 30);
+
+</xmp>
+
+      </div>
+
+    </section>
+  </div>
+</main>
+ 
+<script src="assets/js/app.js"></script>
+<script>
+  elem.addEventListener('tick', event => (event.detail));
+</script>
+
+</body>
+</html>
