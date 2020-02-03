@@ -6,6 +6,7 @@
    --color-magenta-shade-1: #ff616f;
    --color-magenta-shade-2: #c4001d;
    --color-blue: #2979ff;
+   --color-react: #00d8ff;
    --color-blue-shade-1: #58a5f0;
    --color-blue-shade-2: #004c8c;
    --color-green: #00c853;
@@ -14,7 +15,7 @@
    --color-yellow: #ffd600;
    --color-yellow-shade-1: #ffff52;
    --color-yellow-shade-2: #c7a500;
-   --color-default: #455a64;
+   --color-default: #2f353a;
    --line-height: 40px;
    --line-height-large: 50px;
    --height-large: 50px;
@@ -90,6 +91,14 @@ img {
 
 .overflow-y-hidden {
    overflow-y: hidden;
+}
+
+.bg-color-default {
+   background-color: var(--color-default) !important;
+}
+
+.color-react {
+   color: var(--color-react) !important;
 }
 
 /* =========================================================
